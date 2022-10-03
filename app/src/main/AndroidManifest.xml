@@ -27,6 +27,12 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".collect_link"
+            android:label="Link Collector"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
