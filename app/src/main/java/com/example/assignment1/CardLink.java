@@ -1,10 +1,10 @@
 package com.example.assignment1;
 
-public class card_link implements LinkListener {
+public class CardLink implements LinkListener {
 
     private final String url;
 
-    public card_link(String url) {
+    public CardLink(String url) {
         this.url = url;
     }
 
