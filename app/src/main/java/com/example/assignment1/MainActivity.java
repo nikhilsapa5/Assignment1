@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         information = findViewById(R.id.textView);
         clickyclickyButton = findViewById(R.id.clickyButton);
 
-        aboutMeButton.setOnClickListener(view -> Toast.makeText(MainActivity.this, "Name: Nikhil Sapa | Email: sapa.n@northeastern.edu", Toast.LENGTH_SHORT).show());
+
         clickyclickyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,5 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 view.getContext().startActivity(intent);
             }
         });
+    }
+
+    public void displayAboutMe(View view) {
+        Intent intent1 = new Intent(this, AboutMe.class);
+        startActivity(intent1);
     }
 }
