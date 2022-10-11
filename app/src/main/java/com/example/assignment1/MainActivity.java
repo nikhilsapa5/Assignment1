@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button aboutMeButton;
     private Button linkCollectorButton;
+    private Button primeDirectiveButton;
     private TextView information;
     private Button clickyclickyButton;
 
@@ -24,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
         linkCollectorButton = new Button(this);
         information = new TextView(this);
         clickyclickyButton = new Button(this);
+        primeDirectiveButton = new Button(this);
 
         aboutMeButton = findViewById(R.id.button);
         linkCollectorButton = findViewById(R.id.linkCollector);
+        primeDirectiveButton = findViewById(R.id.primeDirective);
         information = findViewById(R.id.textView);
         clickyclickyButton = findViewById(R.id.clickyButton);
-
 
         clickyclickyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 view.getContext().startActivity(intent);
             }
         });
+
     }
 
     public void displayAboutMe(View view) {
