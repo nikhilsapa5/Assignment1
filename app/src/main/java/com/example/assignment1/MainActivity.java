@@ -49,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        primeDirectiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PrimeDirective.class);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     public void displayAboutMe(View view) {
