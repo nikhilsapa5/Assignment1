@@ -27,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
         clickyclickyButton = new Button(this);
         primeDirectiveButton = new Button(this);
 
-        aboutMeButton = findViewById(R.id.button);
+        aboutMeButton = findViewById(R.id.findPrimesButton);
         linkCollectorButton = findViewById(R.id.linkCollector);
         primeDirectiveButton = findViewById(R.id.primeDirective);
-        information = findViewById(R.id.textView);
+        information = findViewById(R.id.currentNumberTextView);
         clickyclickyButton = findViewById(R.id.clickyButton);
 
         clickyclickyButton.setOnClickListener(new View.OnClickListener() {

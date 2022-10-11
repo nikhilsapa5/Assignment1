@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/currentNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current number being searched"
@@ -20,20 +20,20 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/findPrimesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="startThread"
         android:text="Find Primes"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/terminateSearchTextView"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.202" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/terminateSearchTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="stopThread"
@@ -46,7 +46,7 @@
         app:layout_constraintVertical_bias="0.202" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/pacifierCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pacifier Switch"
@@ -59,7 +59,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/latestPrimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Latest Prime number"
