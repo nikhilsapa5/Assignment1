@@ -86,15 +86,15 @@ public class Locator extends AppCompatActivity implements LocationListener {
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_DENIED) {
-            //requestPermissionLauncher.launch(
-                    //Manifest.permission.ACCESS_FINE_LOCATION);
+            requestPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION);
 
         }
 
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
-            //getLatitudeLongitude();
+            getLatitudeLongitude();
         }
         Button resetBtn = (Button) findViewById(R.id.reset);
         resetBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,103 @@ public class Locator extends AppCompatActivity implements LocationListener {
 
     }
 
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permission is granted.
+                    Toast toast = Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT);
+                    toast.show();
+                    getLatitudeLongitude();
+                } else {
+                    //Permission is denied.
+                    Toast toast = Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent = new Intent(Locator.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
 
+
+    private void getLatitudeLongitude() {
+        if (!isGPSEnabled()) {
+            turnOnGPS();
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 20, this);
+
+        LocationServices.getFusedLocationProviderClient(Locator.this)
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+
+                        LocationServices.getFusedLocationProviderClient(Locator.this)
+                                .removeLocationUpdates(this);
+
+                        if (locationResult.getLocations().size() > 0) {
+
+                            int index = locationResult.getLocations().size() - 1;
+                            double latitude = locationResult.getLocations().get(index).getLatitude();
+                            double longitude = locationResult.getLocations().get(index).getLongitude();
+                        }
+                    }
+                }, Looper.getMainLooper());
+    }
+
+    private boolean isGPSEnabled() {
+        boolean isEnabled = false;
+
+        if (locationManager == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        }
+
+        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return isEnabled;
+    }
+
+    private void turnOnGPS() {
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    Toast.makeText(Locator.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+
+                } catch (ApiException e) {
+
+                    switch (e.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                                resolvableApiException.startResolutionForResult(Locator.this, 2);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            //Device does not have location
+                            break;
+                    }
+                }
+            }
+        });
+
+    }
 
     @Override
     public void onLocationChanged(Location location) {
